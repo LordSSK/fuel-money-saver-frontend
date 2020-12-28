@@ -79,7 +79,7 @@ class RouteProvider with ChangeNotifier {
     MapManager().hereMapController.mapScene.addMapPolyline(routeMapPolyline);
     _mapPolylines.add(routeMapPolyline);
     isRouteLoading = false;
-    MapManager().getCitiesIntThePath(routeGeoPolyline.vertices);
+    await MapManager().getCitiesIntThePath(routeGeoPolyline.vertices,route);
     notifyListeners();
   }
 

@@ -34,25 +34,35 @@ class MapManager {
     return _routingEngine;
   }
 
-  void getCitiesIntThePath(List<GeoCoordinates> vertices) {
+  Future<void> getCitiesIntThePath(List<GeoCoordinates> vertices,Route route) async {
     _petrolPumps.clear();
     var ventLength = vertices.length;
     print("coordinate length" + ventLength.toString());
-    int intDiv = ventLength ~/ 125;
-    print("div length" + intDiv.toString());
+    int counter = 0;
+    int previous = 0;
+    int test = 0;
+    await addCity(vertices[counter]);
+    while (counter < ventLength) {
+      if (vertices[counter].distanceTo(vertices[previous]) > 10000) {
+         await addCity(vertices[counter]);
+        previous = counter;
+        test++;
+      }
+      counter++;
+    }
+    print("Counter is " + test.toString() + "Duration "+route.durationInSeconds.toString()+" Traffic "+route.trafficDelayInSeconds.toString());
+  }
 
-    for (int i = 0; i < vertices.length; i += intDiv) {
-      final coordinates =
-          new Coordinates(vertices[i].latitude, vertices[i].longitude);
-      Geocoder.local.findAddressesFromCoordinates(coordinates).then((value) {
-        var first = value.first;
-        if (first.locality != null) {
-          if (!_contains(first.locality)) {
-            _petrolPumps.add(PetrolPump(
-                vertices[i].latitude, vertices[i].longitude, first.locality));
-          }
-        }
-      });
+  Future<void> addCity(GeoCoordinates city) async {
+    final coordinates = new Coordinates(city.latitude, city.longitude);
+    var value = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = value.first;
+    if (first.locality != null) {
+      if (!_contains(first.locality)) {
+        _petrolPumps
+            .add(PetrolPump(city.latitude, city.longitude, first.locality));
+        print("CITY " + first.locality);
+      }
     }
   }
 

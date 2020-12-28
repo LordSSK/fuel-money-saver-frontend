@@ -34,8 +34,7 @@ class RouteProvider with ChangeNotifier {
     if (_coordinates.length < 3) {
       if (_circleMapImage == null) {
         Uint8List imagePixelData = await _loadFileAsUint8List('poi.png');
-        _circleMapImage = MapImage.withPixelDataAndImageFormat(
-            imagePixelData, ImageFormat.png);
+        _circleMapImage = MapImage.withPixelDataAndImageFormat(imagePixelData, ImageFormat.png);
       }
       MapMarker mapMarker = MapMarker(geoCoordinates, _circleMapImage);
       mapMarker.drawOrder = drawOrder;
@@ -56,10 +55,8 @@ class RouteProvider with ChangeNotifier {
     var startWaypoint = Waypoint.withDefaults(startGeoCoordinates);
     var destinationWaypoint = Waypoint.withDefaults(destinationGeoCoordinates);
     List<Waypoint> waypoints = [startWaypoint, destinationWaypoint];
-    await MapManager()
-        .routingEngine
-        .calculateCarRoute(waypoints, CarOptions.withDefaults(),
-            (RoutingError routingError, List<here.Route> routeList) async {
+    await MapManager().routingEngine.calculateCarRoute(waypoints, CarOptions.withDefaults(),
+        (RoutingError routingError, List<here.Route> routeList) async {
       if (routingError == null) {
         here.Route route = routeList.first;
         _showRouteOnMap(route);
@@ -74,12 +71,11 @@ class RouteProvider with ChangeNotifier {
   Future<void> _showRouteOnMap(here.Route route) async {
     GeoPolyline routeGeoPolyline = GeoPolyline(route.polyline);
     double widthInPixels = 20;
-    MapPolyline routeMapPolyline = MapPolyline(
-        routeGeoPolyline, widthInPixels, Color.fromARGB(160, 0, 144, 138));
+    MapPolyline routeMapPolyline = MapPolyline(routeGeoPolyline, widthInPixels, Color.fromARGB(160, 0, 144, 138));
     MapManager().hereMapController.mapScene.addMapPolyline(routeMapPolyline);
     _mapPolylines.add(routeMapPolyline);
     isRouteLoading = false;
-    await MapManager().getCitiesIntThePath(routeGeoPolyline.vertices,route);
+    await MapManager().getCitiesInThePath(routeGeoPolyline.vertices, route);
     notifyListeners();
   }
 

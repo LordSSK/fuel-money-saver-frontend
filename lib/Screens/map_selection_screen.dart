@@ -19,7 +19,7 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
   @override
   void didChangeDependencies() {
     if (!isInit) {
-      routeProvider = Provider.of<RouteProvider>(context,listen: true);
+      routeProvider = Provider.of<RouteProvider>(context, listen: true);
       isInit = true;
     }
     super.didChangeDependencies();
@@ -34,36 +34,36 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
       ),
       body: Stack(children: [
         HereMap(onMapCreated: _onMapCreated),
-            routeProvider.isRouteLoading
-                ?   Align(alignment:Alignment.center,child: CircularProgressIndicator())
-                : Container(),
+        routeProvider.isRouteLoading ? Align(alignment: Alignment.center, child: CircularProgressIndicator()) : Container(),
         Align(
-          alignment: Alignment.center,
-          child: routeProvider.cities.length==0?Container():Container(child: Text("Cities "+routeProvider.cities.toString()),color: Colors.white,)
-        )
+            alignment: Alignment.center,
+            child: routeProvider.cities.length == 0
+                ? Container()
+                : Container(
+                    child: Text("Cities " + routeProvider.cities.toString()),
+                    color: Colors.white,
+                  )),
+        /*Align(alignment: Alignment.bottomLeft, child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: FloatingActionButton(onPressed: (){},elevation: 5.0,child: Icon(Icons.search),),
+        ))*/
       ]),
     );
   }
 
   void _onMapCreated(HereMapController hereMapController) {
     MapManager().registerMapController(hereMapController);
-    hereMapController.mapScene.loadSceneForMapScheme(MapScheme.normalDay,
-        (MapError error) {
+    hereMapController.mapScene.loadSceneForMapScheme(MapScheme.normalDay, (MapError error) {
       if (error == null) {
-
       } else {
         print("Map scene not loaded. MapError: " + error.toString());
       }
     });
     if (!isListenerAdded) {
       print("adding listener");
-      hereMapController.gestures.doubleTapListener =
-          DoubleTapListener.fromLambdas(
-              lambda_onDoubleTap: (Point2D touchPoint) {
+      hereMapController.gestures.doubleTapListener = DoubleTapListener.fromLambdas(lambda_onDoubleTap: (Point2D touchPoint) {
         if (isInit) {
-          routeProvider.addMarker(
-              MapManager().hereMapController.viewToGeoCoordinates(touchPoint),
-              1);
+          routeProvider.addMarker(MapManager().hereMapController.viewToGeoCoordinates(touchPoint), 1);
         }
       });
       isListenerAdded = true;

@@ -1,14 +1,17 @@
+import 'dart:math';
 import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:honda_smart_fuel/Model/petrolPumpModel.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:here_sdk/core.dart';
-import 'package:here_sdk/gestures.dart';
 import 'package:here_sdk/routing.dart';
 
 import 'package:here_sdk/routing.dart' as here;
 
 import 'package:here_sdk/mapview.dart';
+import 'package:honda_smart_fuel/Widget/markerInfoWidget.dart';
 
 class MapManager {
   MapManager._privateConstructor();
@@ -20,6 +23,7 @@ class MapManager {
     return _instance;
   }
 
+  List<WidgetPin> _markers=[];
   HereMapController _hereMapController;
   RoutingEngine _routingEngine;
   List<MapMarker> _mapMarker = [];
@@ -38,9 +42,12 @@ class MapManager {
     return _routingEngine;
   }
 
-  Future<void> getCitiesInThePath(List<GeoCoordinates> vertices, Route route) async {
+  Future<void> getCitiesInThePath(List<GeoCoordinates> vertices, here.Route route) async {
     _mapMarker.clear();
     _petrolPumps.clear();
+    _markers.forEach((element) {
+      element.unpin();
+    });
     var ventLength = vertices.length;
     print("coordinate length" + ventLength.toString());
     int counter = 0;
@@ -52,6 +59,7 @@ class MapManager {
         bool isCityAdded = await addCity(vertices[counter]);
         if (isCityAdded) {
           await getPathBetweenTwoPoint(vertices[previous], vertices[counter]);
+          addMarker(vertices[counter]);
         }
         previous = counter;
         test++;
@@ -81,13 +89,8 @@ class MapManager {
     });
   }
 
-  Future<void> addMarker(GeoCoordinates geoCoordinates, int drawOrder) async {
-    Uint8List imagePixelData = await _loadFileAsUint8List('poi.png');
-    _circleMapImage = MapImage.withPixelDataAndImageFormat(imagePixelData, ImageFormat.png);
-    MapMarker mapMarker = MapMarker(geoCoordinates, _circleMapImage);
-    mapMarker.drawOrder = drawOrder;
-    _mapMarker.add(mapMarker);
-    MapManager().hereMapController.mapScene.addMapMarker(mapMarker);
+  Future<void> addMarker(GeoCoordinates geoCoordinates) async {
+    _markers.add(hereMapController.pinWidget(MarkerInfo(key: ValueKey(geoCoordinates),geoCoordinates: geoCoordinates,), geoCoordinates));
   }
 
   Future<bool> addCity(GeoCoordinates city) async {

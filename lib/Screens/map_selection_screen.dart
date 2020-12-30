@@ -5,7 +5,7 @@ import 'package:here_sdk/mapview.dart';
 import 'package:honda_smart_fuel/Managers/mapManager.dart';
 import 'package:honda_smart_fuel/Provider/routeProvider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:honda_smart_fuel/Widget/carDetailsInputWidget.dart';
 class MapSelectionScreen extends StatefulWidget {
   @override
   _MapSelectionScreenState createState() => _MapSelectionScreenState();
@@ -25,6 +25,8 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
     super.didChangeDependencies();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     //print("Debug  "+routeProvider.isRouteLoading.toString());
@@ -35,18 +37,7 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
       body: Stack(children: [
         HereMap(onMapCreated: _onMapCreated),
         routeProvider.isRouteLoading ? Align(alignment: Alignment.center, child: CircularProgressIndicator()) : Container(),
-        Align(
-            alignment: Alignment.center,
-            child: routeProvider.cities.length == 0
-                ? Container()
-                : Container(
-                    child: Text("Cities " + routeProvider.cities.toString()),
-                    color: Colors.white,
-                  )),
-        /*Align(alignment: Alignment.bottomLeft, child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: FloatingActionButton(onPressed: (){},elevation: 5.0,child: Icon(Icons.search),),
-        ))*/
+        CarDetailsWidget()
       ]),
     );
   }

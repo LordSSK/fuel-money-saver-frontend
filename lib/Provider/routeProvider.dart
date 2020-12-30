@@ -1,14 +1,12 @@
 import 'dart:typed_data';
-import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
 import 'package:here_sdk/routing.dart';
 import 'package:here_sdk/routing.dart' as here;
 import 'package:honda_smart_fuel/Managers/mapManager.dart';
-import 'package:here_sdk/search.dart';
 
 class RouteProvider with ChangeNotifier {
   MapImage _circleMapImage;
@@ -74,8 +72,8 @@ class RouteProvider with ChangeNotifier {
     MapPolyline routeMapPolyline = MapPolyline(routeGeoPolyline, widthInPixels, Color.fromARGB(160, 0, 144, 138));
     MapManager().hereMapController.mapScene.addMapPolyline(routeMapPolyline);
     _mapPolylines.add(routeMapPolyline);
-    isRouteLoading = false;
     await MapManager().getCitiesInThePath(routeGeoPolyline.vertices, route);
+    isRouteLoading = false;
     notifyListeners();
   }
 

@@ -31,6 +31,8 @@ dependencies:
   provider: ^4.3.2+3
   geocoder: ^0.2.1
   geocoding: ^1.0.5
+  meta: ^1.2.4
+  http: ^0.12.2
   here_sdk:
     path: plugins/here_sdk
 

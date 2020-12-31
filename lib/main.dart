@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           create: (context) => RouteProvider(),
         )
       ],
-      child: MaterialApp(home: MapSelectionScreen()),
+      child: MaterialApp(home: MapSelectionScreen(),theme: ThemeData(accentColor: Colors.amber),),
     );
   }
 }

@@ -9,7 +9,7 @@ class PetrolPump {
   final int trafficDelay;
   final double rate;
    double spend;
-
+  double petrolRate;
   PetrolPump(
       {@required this.id,
       @required this.geocoordinates,
@@ -18,15 +18,16 @@ class PetrolPump {
       @required this.totalDuration,
       @required this.trafficDelay,
       this.rate = 1,
+        this.petrolRate=85,
       this.spend});
 
   Map<String, dynamic> toJson(){
     return {
       "id": id,
-      "cityName": cityName,
       "distToNext": distToNext,
       "totalDuration": totalDuration,
       "trafficDelay":trafficDelay,
+      "cityName": cityName,
       "rate":rate
     };
   }

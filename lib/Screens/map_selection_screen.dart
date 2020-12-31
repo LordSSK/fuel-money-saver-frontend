@@ -33,6 +33,7 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Honda Smart Fuel Manager'),
+        backgroundColor: Theme.of(context).accentColor,
       ),
       body: Stack(children: [
         HereMap(onMapCreated: _onMapCreated),
@@ -43,6 +44,7 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
   }
 
   void _onMapCreated(HereMapController hereMapController) {
+
     MapManager().registerMapController(hereMapController);
     hereMapController.mapScene.loadSceneForMapScheme(MapScheme.normalDay, (MapError error) {
       if (error == null) {

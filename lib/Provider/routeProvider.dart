@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
@@ -69,7 +69,7 @@ class RouteProvider with ChangeNotifier {
   Future<void> _showRouteOnMap(here.Route route) async {
     GeoPolyline routeGeoPolyline = GeoPolyline(route.polyline);
     double widthInPixels = 20;
-    MapPolyline routeMapPolyline = MapPolyline(routeGeoPolyline, widthInPixels, Color.fromARGB(160, 0, 144, 138));
+    MapPolyline routeMapPolyline = MapPolyline(routeGeoPolyline, widthInPixels,Colors.blueAccent);
     MapManager().hereMapController.mapScene.addMapPolyline(routeMapPolyline);
     _mapPolylines.add(routeMapPolyline);
     await MapManager().getCitiesInThePath(routeGeoPolyline.vertices, route);

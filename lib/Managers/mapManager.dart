@@ -24,11 +24,9 @@ class MapManager {
   RoutingEngine _routingEngine;
   List<MapMarker> _mapMarker = [];
   MapImage _circleMapImage;
-  double mileage=16;
-  double fuelCapacity=40;
-  double currentFuel=0;
-
-
+  double mileage = 16;
+  double fuelCapacity = 40;
+  double currentFuel = 0;
 
   registerMapController(HereMapController hereMapController) {
     _hereMapController = hereMapController;
@@ -43,13 +41,12 @@ class MapManager {
     return _routingEngine;
   }
 
-  void updateCarDetails(double mileage,double fuelCapacity,double currentFuel){
-    print("Changing to "+mileage.toString());
-    this.mileage=mileage;
-    this.fuelCapacity=fuelCapacity;
-    this.currentFuel=currentFuel;
+  void updateCarDetails(double mileage, double fuelCapacity, double currentFuel) {
+    print("Changing to " + mileage.toString());
+    this.mileage = mileage;
+    this.fuelCapacity = fuelCapacity;
+    this.currentFuel = currentFuel;
   }
-
 
   Future<void> getCitiesInThePath(List<GeoCoordinates> vertices, here.Route route) async {
     _mapMarker.clear();
@@ -73,7 +70,7 @@ class MapManager {
     _petrolPumps.forEach((element) {
       print(element.cityName + "Dada");
     });
-    Future.delayed(Duration(milliseconds: 1000), getOptimalPetrolPumps);
+    await Future.delayed(Duration(milliseconds: 1000), getOptimalPetrolPumps);
   }
 
   Future<void> calculate(GeoCoordinates start, GeoCoordinates end, int counter) async {
@@ -88,7 +85,10 @@ class MapManager {
   }
 
   Future<void> getOptimalPetrolPumps() async {
-    HTTPProvider().getOptimalPetrolPumps(_petrolPumps);
+    List<PetrolPump> holder = await HTTPProvider().getOptimalPetrolPumps(_petrolPumps);
+    holder.forEach((element) {
+      addMarker(element);
+    });
   }
 
   Future<void> getPathBetweenTwoPoint(GeoCoordinates source, GeoCoordinates dest, double id, Address address) async {
@@ -104,20 +104,17 @@ class MapManager {
             route.durationInSeconds.toString() +
             "s TotalLength" +
             route.lengthInMeters.toString());
-        if (address.locality != null) {
-          if (!_contains(address.locality)) {
-            print("IN IFFF" + _petrolPumps.length.toString());
-            _petrolPumps.add(new PetrolPump(
-                id: id.toInt(),
-                cityName: address.locality,
-                geocoordinates: source,
-                distToNext: route.lengthInMeters / 1000,
-                totalDuration: route.durationInSeconds,
-                trafficDelay: route.trafficDelayInSeconds,
-                rate: 1));
-            print("CITY " + address.locality + _petrolPumps.length.toString());
-          }
-        }
+
+        print("IN IFFF" + _petrolPumps.length.toString());
+        _petrolPumps.add(new PetrolPump(
+            id: id.toInt(),
+            cityName: address.locality != null ? address.locality : "Default",
+            geocoordinates: source,
+            distToNext: route.lengthInMeters / 1000,
+            totalDuration: route.durationInSeconds,
+            trafficDelay: route.trafficDelayInSeconds,
+            rate: 1));
+        print("CITY " + address.locality + _petrolPumps.length.toString());
       } else {
         var error = routingError.toString();
         print("Error");

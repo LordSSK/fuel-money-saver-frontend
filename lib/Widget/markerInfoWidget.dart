@@ -10,15 +10,12 @@ class MarkerInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Card(
-        child: Column(
-          children: [
-            Text("City "+petrolPump.cityName),
-            Text("Petrol Rate "+petrolPump.rate.toString()),
-            Text("Spend "+petrolPump.spend.toString()),
-            Text("Next PetrolStation"+(petrolPump.distToNext/1000).toString()+"KM"),
-          ],
-        ),
+      child: Column(
+        children: [
+          Text("City "+petrolPump.cityName),
+          Text("Petrol Rate "+petrolPump.petrolRate.toString()),
+          Text("Spend "+petrolPump.spend.toStringAsFixed(2)),
+        ],
       ),
     );
   }

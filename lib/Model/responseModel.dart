@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 ResponseModel fromJsonResponse(String str) => ResponseModel.fromJson(json.decode(str));
 
 class ResponseModel {
@@ -19,7 +18,7 @@ class ResponseModel {
   factory ResponseModel.fromJson(Map<String, dynamic> json) => ResponseModel(
         amtSaved: json["amtSaved"].toDouble(),
         finalCost: json["finalCost"].toDouble(),
-        originalCost: json["originalCost"],
+        originalCost: json["originalCost"].toInt(),
         pumpIds: List<Pump>.from(json["pumpIds"].map((x) => Pump.fromJson(x))),
       );
 
@@ -32,21 +31,14 @@ class ResponseModel {
 }
 
 class Pump {
-  Pump({
-    this.id,
-    this.spend,
-  });
+  Pump({this.id, this.spend, this.petrolRate});
 
   int id;
   double spend;
+  double petrolRate;
 
-  factory Pump.fromJson(Map<String, dynamic> json) => Pump(
-        id: json["id"],
-        spend: json["spend"].toDouble(),
-      );
+  factory Pump.fromJson(Map<String, dynamic> json) =>
+      Pump(id: json["id"], spend: json["spend"].toDouble(), petrolRate: json["petrolRate"].toDouble());
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "spend": spend,
-      };
+  Map<String, dynamic> toJson() => {"id": id, "spend": spend, "patrolRate": petrolRate};
 }

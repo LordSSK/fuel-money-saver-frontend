@@ -4,7 +4,7 @@ import 'package:here_sdk/mapview.dart';
 import 'package:honda_smart_fuel/Provider/routeProvider.dart';
 import 'package:honda_smart_fuel/Screens/map_selection_screen.dart';
 import 'package:provider/provider.dart';
-
+import 'Screens/introductionScreen.dart';
 import 'routes.dart';
 
 void main() {
@@ -29,7 +29,18 @@ class MyApp extends StatelessWidget {
           create: (context) => RouteProvider(),
         )
       ],
-      child: MaterialApp(home: MapSelectionScreen(),theme: ThemeData(accentColor: Colors.amber),),
+      child: MaterialApp(theme: ThemeData(accentColor: Colors.amber, bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(15.0))
+          )
+      ),),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => IntroScreen(),
+          '/mapSelection':(context)=>MapSelectionScreen(),
+        },
+      ),
     );
   }
 }

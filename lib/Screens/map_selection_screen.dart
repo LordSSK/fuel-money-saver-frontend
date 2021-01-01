@@ -4,8 +4,10 @@ import 'package:here_sdk/gestures.dart';
 import 'package:here_sdk/mapview.dart';
 import 'package:honda_smart_fuel/Managers/mapManager.dart';
 import 'package:honda_smart_fuel/Provider/routeProvider.dart';
+import 'package:honda_smart_fuel/Widget/routeUIButtons.dart';
 import 'package:provider/provider.dart';
 import 'package:honda_smart_fuel/Widget/carDetailsInputWidget.dart';
+
 class MapSelectionScreen extends StatefulWidget {
   @override
   _MapSelectionScreenState createState() => _MapSelectionScreenState();
@@ -25,8 +27,6 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
     super.didChangeDependencies();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     //print("Debug  "+routeProvider.isRouteLoading.toString());
@@ -38,13 +38,28 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
       body: Stack(children: [
         HereMap(onMapCreated: _onMapCreated),
         routeProvider.isRouteLoading ? Align(alignment: Alignment.center, child: CircularProgressIndicator()) : Container(),
-        CarDetailsWidget()
+        routeProvider.isCalculatingOptimalRoute
+            ? Align(
+                alignment: Alignment.center,
+                child: Card(
+                    child: Container(
+                  child: Text(
+                    "Generating optimal Path",
+                    textAlign: TextAlign.center,
+                  ),
+                  alignment: Alignment.center,
+                  width: 200,
+                  height: 100,
+                  color: Colors.white,
+                )))
+            : Container(),
+        //CarDetailsWidget(),
+        RouteButtons(),
       ]),
     );
   }
 
   void _onMapCreated(HereMapController hereMapController) {
-
     MapManager().registerMapController(hereMapController);
     hereMapController.mapScene.loadSceneForMapScheme(MapScheme.normalDay, (MapError error) {
       if (error == null) {

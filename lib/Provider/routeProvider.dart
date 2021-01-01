@@ -10,46 +10,43 @@ import 'package:honda_smart_fuel/Managers/mapManager.dart';
 
 class RouteProvider with ChangeNotifier {
   MapImage _circleMapImage;
-  List<GeoCoordinates> _coordinates = [];
+  List<GeoCoordinates> markerCoordinates = [];
   List<String> cities = [];
   List<MapPolyline> _mapPolylines = [];
   bool areCitiesLoaded = false;
   List<MapMarker> _mapMarker = [];
   bool isRouteLoading = false;
+  bool isCalculatingOptimalRoute = false;
+  bool isCurrentRouteGenerated = false;
+  here.Route currentRoute;
 
   Future<void> addMarker(GeoCoordinates geoCoordinates, int drawOrder) async {
-    print("adding marker" + _coordinates.length.toString());
-    if (_coordinates.length == 0) {
-      cities.clear();
-      _mapMarker.forEach((marker) {
-        MapManager().hereMapController.mapScene.removeMapMarker(marker);
-      });
-      _mapMarker.clear();
+    print("adding marker" + markerCoordinates.length.toString());
+    if (markerCoordinates.length == 0) {
       clearMap();
       notifyListeners();
     }
-    _coordinates.add(geoCoordinates);
-    if (_coordinates.length < 3) {
-      if (_circleMapImage == null) {
-        Uint8List imagePixelData = await _loadFileAsUint8List('poi.png');
-        _circleMapImage = MapImage.withPixelDataAndImageFormat(imagePixelData, ImageFormat.png);
-      }
-      MapMarker mapMarker = MapMarker(geoCoordinates, _circleMapImage);
-      mapMarker.drawOrder = drawOrder;
-      _mapMarker.add(mapMarker);
-      MapManager().hereMapController.mapScene.addMapMarker(mapMarker);
-      //notifyListeners();
+    markerCoordinates.add(geoCoordinates);
+    if (_circleMapImage == null) {
+      Uint8List imagePixelData = await _loadFileAsUint8List('poi.png');
+      _circleMapImage = MapImage.withPixelDataAndImageFormat(imagePixelData, ImageFormat.png);
     }
-    if (_coordinates.length == 2) {
-      isRouteLoading = true;
-      notifyListeners();
-      generateRoute();
+    MapMarker mapMarker = MapMarker(geoCoordinates, _circleMapImage);
+    mapMarker.drawOrder = drawOrder;
+    _mapMarker.add(mapMarker);
+    MapManager().hereMapController.mapScene.addMapMarker(mapMarker);
+    if (markerCoordinates.length == 3) {
+      markerCoordinates.removeAt(0);
+      MapManager().hereMapController.mapScene.removeMapMarker(_mapMarker[0]);
+      _mapMarker.removeAt(0);
     }
+    notifyListeners();
   }
 
   Future<void> generateRoute() async {
-    var startGeoCoordinates = _coordinates[0];
-    var destinationGeoCoordinates = _coordinates[1];
+    isRouteLoading = true;
+    var startGeoCoordinates = markerCoordinates[0];
+    var destinationGeoCoordinates = markerCoordinates[1];
     var startWaypoint = Waypoint.withDefaults(startGeoCoordinates);
     var destinationWaypoint = Waypoint.withDefaults(destinationGeoCoordinates);
     List<Waypoint> waypoints = [startWaypoint, destinationWaypoint];
@@ -57,23 +54,32 @@ class RouteProvider with ChangeNotifier {
         (RoutingError routingError, List<here.Route> routeList) async {
       if (routingError == null) {
         here.Route route = routeList.first;
+        currentRoute = route;
         _showRouteOnMap(route);
       } else {
         var error = routingError.toString();
         print("Error");
       }
     });
-    _coordinates.clear();
+    markerCoordinates.clear();
   }
 
   Future<void> _showRouteOnMap(here.Route route) async {
     GeoPolyline routeGeoPolyline = GeoPolyline(route.polyline);
     double widthInPixels = 20;
-    MapPolyline routeMapPolyline = MapPolyline(routeGeoPolyline, widthInPixels,Colors.blueAccent);
+    MapPolyline routeMapPolyline = MapPolyline(routeGeoPolyline, widthInPixels, Colors.blueAccent);
     MapManager().hereMapController.mapScene.addMapPolyline(routeMapPolyline);
     _mapPolylines.add(routeMapPolyline);
-    await MapManager().getCitiesInThePath(routeGeoPolyline.vertices, route);
     isRouteLoading = false;
+    isCurrentRouteGenerated = true;
+    notifyListeners();
+  }
+
+  Future<void> getOptimalPath() async {
+    isCalculatingOptimalRoute = true;
+    notifyListeners();
+    await MapManager().getCitiesInThePath(GeoPolyline(currentRoute.polyline).vertices, currentRoute);
+    isCalculatingOptimalRoute = false;
     notifyListeners();
   }
 
@@ -86,6 +92,14 @@ class RouteProvider with ChangeNotifier {
     for (var mapPolyline in _mapPolylines) {
       MapManager().hereMapController.mapScene.removeMapPolyline(mapPolyline);
     }
+    markerCoordinates.clear();
+    cities.clear();
     _mapPolylines.clear();
+    _mapMarker.forEach((marker) {
+      MapManager().hereMapController.mapScene.removeMapMarker(marker);
+    });
+    _mapMarker.clear();
+    isCurrentRouteGenerated = false;
+    notifyListeners();
   }
 }

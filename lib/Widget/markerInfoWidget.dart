@@ -12,7 +12,7 @@ class MarkerInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        TTSManager().speakText("Hello, Please fill " +
+        TTSManager().speakText("Take the next turn and Please fill " +
             petrolPump.spend.toStringAsFixed(2) +
             "amount of Fuel. Current Fuel rate at this station is " +
             petrolPump.petrolRate.toStringAsFixed(2));

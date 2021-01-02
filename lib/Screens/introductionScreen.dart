@@ -25,7 +25,7 @@ class IntroScreen extends StatelessWidget {
           Text(" to generate Route"),
         ],
       ),
-      image: const Center(child: Icon(Icons.favorite,color: Colors.red,)),
+      image: const Center(child: Icon(Icons.alt_route,color: Colors.red,size: 50,)),
     ), PageViewModel(
       title: "Optimal Fuel Stations",
       bodyWidget: Row(
@@ -36,13 +36,17 @@ class IntroScreen extends StatelessWidget {
           Text(" to get best Fuel Stations"),
         ],
       ),
-      image: const Center(child: Icon(Icons.favorite,color: Colors.red,)),
+      image: const Center(child: Icon(Icons.car_repair,color: Colors.red,size: 50,)),
     )
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Center(child: Text("Honda Smart Fuel Saver")),
+        backgroundColor: Theme.of(context).accentColor,
+      ),
       body: IntroductionScreen(
           pages: pages,
           onDone: () {

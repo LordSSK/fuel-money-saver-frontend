@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           create: (context) => RouteProvider(),
         )
       ],
-      child: MaterialApp(theme: ThemeData(accentColor: Colors.amber, bottomSheetTheme: BottomSheetThemeData(
+      child: MaterialApp(theme: ThemeData(accentColor: Color.fromARGB(255, 48, 48, 48), bottomSheetTheme: BottomSheetThemeData(
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(15.0))

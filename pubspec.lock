@@ -15,13 +15,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0-nullsafety.1"
-  bottom_sheet_bar:
-    dependency: "direct main"
-    description:
-      name: bottom_sheet_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2+7"
   characters:
     dependency: transitive
     description:
@@ -83,11 +76,25 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_spinkit:
+    dependency: "direct main"
+    description:
+      name: flutter_spinkit
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.2+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_tts:
+    dependency: "direct main"
+    description:
+      name: flutter_tts
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -156,13 +163,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.10-nullsafety.1"
-  measure_size:
-    dependency: transitive
-    description:
-      name: measure_size
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0+1"
   meta:
     dependency: "direct main"
     description:
@@ -210,6 +210,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sliding_up_panel:
+    dependency: "direct main"
+    description:
+      name: sliding_up_panel
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   source_span:
     dependency: transitive
     description:

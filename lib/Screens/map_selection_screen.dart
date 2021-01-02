@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/gestures.dart';
 import 'package:here_sdk/mapview.dart';
@@ -7,6 +9,7 @@ import 'package:honda_smart_fuel/Provider/routeProvider.dart';
 import 'package:honda_smart_fuel/Widget/routeUIButtons.dart';
 import 'package:provider/provider.dart';
 import 'package:honda_smart_fuel/Widget/carDetailsInputWidget.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class MapSelectionScreen extends StatefulWidget {
   @override
@@ -17,6 +20,7 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
   RouteProvider routeProvider;
   bool isInit = false;
   bool isListenerAdded = false;
+  final _panelController = PanelController();
 
   @override
   void didChangeDependencies() {
@@ -25,6 +29,14 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
       isInit = true;
     }
     super.didChangeDependencies();
+  }
+
+  void scrollUpPanel() {
+    if (_panelController.isPanelClosed) {
+      _panelController.open();
+    } else {
+      _panelController.close();
+    }
   }
 
   @override
@@ -41,20 +53,55 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
         routeProvider.isCalculatingOptimalRoute
             ? Align(
                 alignment: Alignment.center,
-                child: Card(
-                    child: Container(
-                  child: Text(
-                    "Generating optimal Path",
-                    textAlign: TextAlign.center,
+                child: Container(
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.0), color: Colors.white),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          "Generating optimal Path...",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: SpinKitPouringHourglass(
+                          color: Colors.grey,
+                          size: 50.0,
+                        ),
+                      )
+                    ],
                   ),
                   alignment: Alignment.center,
                   width: 200,
                   height: 100,
-                  color: Colors.white,
-                )))
+                ))
             : Container(),
         //CarDetailsWidget(),
-        RouteButtons(),
+        SlidingUpPanel(
+          controller: _panelController,
+          color: Colors.grey,
+          minHeight: 50,
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)),
+          panel: Container(
+            child: Column(
+              children: [
+                Icon(
+                  Icons.car_repair,
+                  size: 50,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                CarDetailsWidget(),
+              ],
+            ),
+          ),
+        ),
+        RouteButtons(_panelController),
       ]),
     );
   }

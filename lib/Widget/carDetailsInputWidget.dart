@@ -29,7 +29,7 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: [
         TextField(
           controller: _currentFuel,

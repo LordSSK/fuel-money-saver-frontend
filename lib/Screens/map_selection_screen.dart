@@ -80,6 +80,7 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
                 ))
             : Container(),
         //CarDetailsWidget(),
+        RouteButtons(_panelController),
         SlidingUpPanel(
           controller: _panelController,
           color: Colors.grey,
@@ -101,7 +102,6 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
             ),
           ),
         ),
-        RouteButtons(_panelController),
       ]),
     );
   }

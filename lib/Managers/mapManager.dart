@@ -12,6 +12,7 @@ import 'package:honda_smart_fuel/Widget/markerInfoWidget.dart';
 class MapManager {
   MapManager._privateConstructor();
 
+  static GeoCoordinates Mumbai = GeoCoordinates(19.076090, 72.88261);
   List<PetrolPump> _petrolPumps = [];
   static final MapManager _instance = MapManager._privateConstructor();
 
@@ -30,6 +31,7 @@ class MapManager {
 
   registerMapController(HereMapController hereMapController) {
     _hereMapController = hereMapController;
+    _hereMapController.camera.lookAtPointWithDistance(Mumbai,100000);
     _routingEngine = new RoutingEngine();
   }
 

@@ -11,6 +11,10 @@ import 'package:provider/provider.dart';
 import 'package:honda_smart_fuel/Widget/carDetailsInputWidget.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+
+
+
+
 class MapSelectionScreen extends StatefulWidget {
   @override
   _MapSelectionScreenState createState() => _MapSelectionScreenState();
@@ -83,16 +87,18 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
         RouteButtons(_panelController),
         SlidingUpPanel(
           controller: _panelController,
-          color: Colors.grey,
+          color: Colors.white,
           minHeight: 50,
           borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)),
           panel: Container(
             child: Column(
               children: [
-                Icon(
-                  Icons.car_repair,
-                  size: 50,
-                  color: Colors.white,
+                MaterialButton(
+                  onPressed: (){},
+                  shape: CircleBorder(),
+                  color:  Theme.of(context).accentColor,
+                  height: 75,
+                  child: Icon(Icons.car_repair,color: Theme.of(context).canvasColor,size: 30,),
                 ),
                 SizedBox(
                   height: 20,

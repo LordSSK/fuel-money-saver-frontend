@@ -68,10 +68,13 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
                   shape: CircleBorder(),
                   color: Theme.of(context).accentColor,
                   height: 75,
-                  child: Icon(
-                    Icons.car_repair,
-                    color: Theme.of(context).canvasColor,
-                    size: 30,
+                  child: Hero(
+                    tag: "Main",
+                    child: Icon(
+                      Icons.car_repair,
+                      color: Theme.of(context).canvasColor,
+                      size: 30,
+                    ),
                   ),
                 ),
                 SizedBox(

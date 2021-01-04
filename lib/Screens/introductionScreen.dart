@@ -46,11 +46,14 @@ class IntroScreen extends StatelessWidget {
           Text(" to get best Fuel Stations"),
         ],
       ),
-      image: const Center(
-          child: Icon(
-        Icons.car_repair,
-        color: Colors.red,
-        size: 50,
+      image: Center(
+          child: Hero(
+        tag: "Main",
+        child: Icon(
+          Icons.car_repair,
+          color: Colors.red,
+          size: 50,
+        ),
       )),
     )
   ];

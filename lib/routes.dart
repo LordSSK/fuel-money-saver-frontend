@@ -17,8 +17,7 @@ class RoutingExample {
     _hereMapController = hereMapController;
 
     double distanceToEarthInMeters = 10000;
-    _hereMapController.camera.lookAtPointWithDistance(
-        GeoCoordinates(52.520798, 13.409408), distanceToEarthInMeters);
+    _hereMapController.camera.lookAtPointWithDistance(GeoCoordinates(52.520798, 13.409408), distanceToEarthInMeters);
 
     _routingEngine = new RoutingEngine();
   }
@@ -31,18 +30,17 @@ class RoutingExample {
 
     List<Waypoint> waypoints = [startWaypoint, destinationWaypoint];
 
-    await _routingEngine.calculateCarRoute(waypoints, CarOptions.withDefaults(),
-            (RoutingError routingError, List<here.Route> routeList) async {
-          if (routingError == null) {
-            here.Route route = routeList.first;
-            _showRouteDetails(route);
-            _showRouteOnMap(route);
-            _logRouteViolations(route);
-          } else {
-            var error = routingError.toString();
-            _showDialog('Error', 'Error while calculating a route: $error');
-          }
-        });
+    await _routingEngine.calculateCarRoute(waypoints, CarOptions.withDefaults(), (RoutingError routingError, List<here.Route> routeList) async {
+      if (routingError == null) {
+        here.Route route = routeList.first;
+        _showRouteDetails(route);
+        _showRouteOnMap(route);
+        _logRouteViolations(route);
+      } else {
+        var error = routingError.toString();
+        _showDialog('Error', 'Error while calculating a route: $error');
+      }
+    });
   }
 
   // A route may contain several warnings, for example, when a certain route option could not be fulfilled.
@@ -66,10 +64,7 @@ class RoutingExample {
     int estimatedTravelTimeInSeconds = route.durationInSeconds;
     int lengthInMeters = route.lengthInMeters;
 
-    String routeDetails = 'Travel Time: ' +
-        _formatTime(estimatedTravelTimeInSeconds) +
-        ', Length: ' +
-        _formatLength(lengthInMeters);
+    String routeDetails = 'Travel Time: ' + _formatTime(estimatedTravelTimeInSeconds) + ', Length: ' + _formatLength(lengthInMeters);
 
     _showDialog('Route Details', '$routeDetails');
   }
@@ -91,13 +86,11 @@ class RoutingExample {
   _showRouteOnMap(here.Route route) {
     // Show route as polyline.
     GeoPolyline routeGeoPolyline = GeoPolyline(route.polyline);
-  routeGeoPolyline.vertices.forEach((element) {
-      print("Route Dada"+element.latitude.toString()+" "+element.longitude.toString());
-
-  });
+    routeGeoPolyline.vertices.forEach((element) {
+      print("Route Dada" + element.latitude.toString() + " " + element.longitude.toString());
+    });
     double widthInPixels = 20;
-    MapPolyline routeMapPolyline = MapPolyline(
-        routeGeoPolyline, widthInPixels, Color.fromARGB(160, 0, 144, 138));
+    MapPolyline routeMapPolyline = MapPolyline(routeGeoPolyline, widthInPixels, Color.fromARGB(160, 0, 144, 138));
 
     _hereMapController.mapScene.addMapPolyline(routeMapPolyline);
     _mapPolylines.add(routeMapPolyline);

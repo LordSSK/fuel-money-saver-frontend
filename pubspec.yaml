@@ -38,6 +38,8 @@ dependencies:
   flutter_spinkit: "^4.1.2"
   introduction_screen: ^1.0.9
   flutter_tts: ^2.0.0
+  google_fonts:
+  hexcolor:
   here_sdk:
     path: plugins/here_sdk
 

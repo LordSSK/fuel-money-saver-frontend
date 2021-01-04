@@ -9,7 +9,7 @@ class CarDetailsWidget extends StatefulWidget {
 
 class _CarDetailsWidgetState extends State<CarDetailsWidget> {
   TextEditingController _currentFuel, _fuelCapacity, _mileage;
-  static const double maxCapacity=100;
+  static const double maxCapacity = 100;
   void onMileageChanged(String text) {
     if (text.isNotEmpty) {
       MapManager().mileage = double.parse(text);
@@ -27,6 +27,7 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget> {
       MapManager().currentFuel = double.parse(text);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,13 +42,15 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget> {
           showLabels: true,
           enableTooltip: true,
           minorTicksPerInterval: 1,
-          onChanged: (dynamic value){
+          onChanged: (dynamic value) {
             setState(() {
               MapManager().currentFuel = value;
             });
           },
         ),
-        SizedBox(height: 30,),
+        SizedBox(
+          height: 30,
+        ),
         Text("Fuel Capacity"),
         SfSlider(
           min: 0.0,
@@ -58,13 +61,15 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget> {
           showLabels: true,
           enableTooltip: true,
           minorTicksPerInterval: 1,
-          onChanged: (dynamic value){
+          onChanged: (dynamic value) {
             setState(() {
               MapManager().fuelCapacity = value;
             });
           },
         ),
-        SizedBox(height: 30,),
+        SizedBox(
+          height: 30,
+        ),
         Text("Mileage"),
         SfSlider(
           min: 0.0,
@@ -75,14 +80,16 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget> {
           showLabels: true,
           enableTooltip: true,
           minorTicksPerInterval: 1,
-          onChanged: (dynamic value){
+          onChanged: (dynamic value) {
             setState(() {
               MapManager().mileage = value;
             });
           },
         ),
-        SizedBox(height: 30,),
-       /* TextField(
+        SizedBox(
+          height: 30,
+        ),
+        /* TextField(
           controller: _currentFuel,
           onChanged: onCurrentFuelChanged,
           keyboardType: TextInputType.number,

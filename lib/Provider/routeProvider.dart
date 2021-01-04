@@ -7,6 +7,7 @@ import 'package:here_sdk/mapview.dart';
 import 'package:here_sdk/routing.dart';
 import 'package:here_sdk/routing.dart' as here;
 import 'package:honda_smart_fuel/Managers/mapManager.dart';
+import 'package:honda_smart_fuel/Provider/httpProvider.dart';
 
 class RouteProvider with ChangeNotifier {
   MapImage _circleMapImage;
@@ -44,6 +45,7 @@ class RouteProvider with ChangeNotifier {
   }
 
   Future<void> generateRoute() async {
+    HTTPProvider().isResponseLoaded = false;
     isRouteLoading = true;
     var startGeoCoordinates = markerCoordinates[0];
     var destinationGeoCoordinates = markerCoordinates[1];
@@ -98,8 +100,10 @@ class RouteProvider with ChangeNotifier {
     _mapMarker.forEach((marker) {
       MapManager().hereMapController.mapScene.removeMapMarker(marker);
     });
+    MapManager().clearPinnedWidget();
     _mapMarker.clear();
     isCurrentRouteGenerated = false;
+    HTTPProvider().isResponseLoaded = false;
     notifyListeners();
   }
 }

@@ -8,9 +8,9 @@ class TTSManager {
   }
   FlutterTts flutterTts;
 
-  Future speakText(String text) async{
-    if(flutterTts==null){
-      flutterTts=new FlutterTts();
+  Future speakText(String text) async {
+    if (flutterTts == null) {
+      flutterTts = new FlutterTts();
     }
     if (text != null) {
       if (text.isNotEmpty) {
@@ -18,5 +18,4 @@ class TTSManager {
       }
     }
   }
-
 }

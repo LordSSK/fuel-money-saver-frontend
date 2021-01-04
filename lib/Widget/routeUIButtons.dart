@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:honda_smart_fuel/Provider/httpProvider.dart';
 import 'package:honda_smart_fuel/Provider/routeProvider.dart';
-import 'package:honda_smart_fuel/Screens/map_selection_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class RouteButtons extends StatefulWidget {
   final PanelController panelController;
+
   RouteButtons(this.panelController);
 
   @override
@@ -18,10 +18,9 @@ class _RouteButtonsState extends State<RouteButtons> {
   bool isInit = false;
 
   void scrollUP() {
-    if(widget.panelController.isPanelClosed){
+    if (widget.panelController.isPanelClosed) {
       widget.panelController.open();
-    }
-    else{
+    } else {
       widget.panelController.close();
     }
   }
@@ -44,7 +43,7 @@ class _RouteButtonsState extends State<RouteButtons> {
           Column(
             children: [
               SizedBox(
-                height: 20,
+                height: HTTPProvider().isResponseLoaded ? 100 : 20,
               ),
               MaterialButton(
                 onPressed: scrollUP,

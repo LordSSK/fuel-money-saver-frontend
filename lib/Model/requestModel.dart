@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:honda_smart_fuel/Model/petrolPumpModel.dart';
 
 class RequestModel {

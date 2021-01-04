@@ -13,7 +13,11 @@ class IntroScreen extends StatelessWidget {
           Text(" anywhere to add marker"),
         ],
       ),
-      image: const Center(child: Icon(Icons.favorite,color: Colors.red,)),
+      image: const Center(
+          child: Icon(
+        Icons.favorite,
+        color: Colors.red,
+      )),
     ),
     PageViewModel(
       title: "Generate Route",
@@ -25,8 +29,14 @@ class IntroScreen extends StatelessWidget {
           Text(" to generate Route"),
         ],
       ),
-      image: const Center(child: Icon(Icons.alt_route,color: Colors.red,size: 50,)),
-    ), PageViewModel(
+      image: const Center(
+          child: Icon(
+        Icons.alt_route,
+        color: Colors.red,
+        size: 50,
+      )),
+    ),
+    PageViewModel(
       title: "Optimal Fuel Stations",
       bodyWidget: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +46,12 @@ class IntroScreen extends StatelessWidget {
           Text(" to get best Fuel Stations"),
         ],
       ),
-      image: const Center(child: Icon(Icons.car_repair,color: Colors.red,size: 50,)),
+      image: const Center(
+          child: Icon(
+        Icons.car_repair,
+        color: Colors.red,
+        size: 50,
+      )),
     )
   ];
 

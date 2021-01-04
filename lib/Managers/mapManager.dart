@@ -31,7 +31,7 @@ class MapManager {
 
   registerMapController(HereMapController hereMapController) {
     _hereMapController = hereMapController;
-    _hereMapController.camera.lookAtPointWithDistance(Mumbai,100000);
+    _hereMapController.camera.lookAtPointWithDistance(Mumbai, 100000);
     _routingEngine = new RoutingEngine();
   }
 
@@ -48,6 +48,12 @@ class MapManager {
     this.mileage = mileage;
     this.fuelCapacity = fuelCapacity;
     this.currentFuel = currentFuel;
+  }
+
+  void clearPinnedWidget() {
+    _markers.forEach((element) {
+      element.unpin();
+    });
   }
 
   Future<void> getCitiesInThePath(List<GeoCoordinates> vertices, here.Route route) async {

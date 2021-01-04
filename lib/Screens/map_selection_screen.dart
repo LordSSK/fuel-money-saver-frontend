@@ -1,19 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/gestures.dart';
 import 'package:here_sdk/mapview.dart';
 import 'package:honda_smart_fuel/Managers/mapManager.dart';
 import 'package:honda_smart_fuel/Provider/routeProvider.dart';
+import 'package:honda_smart_fuel/Widget/carDetailsInputWidget.dart';
+import 'package:honda_smart_fuel/Widget/loadingWidget.dart';
+import 'package:honda_smart_fuel/Widget/routeSavingDetailsWidget.dart';
 import 'package:honda_smart_fuel/Widget/routeUIButtons.dart';
 import 'package:provider/provider.dart';
-import 'package:honda_smart_fuel/Widget/carDetailsInputWidget.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-
-
-
-
 
 class MapSelectionScreen extends StatefulWidget {
   @override
@@ -53,36 +50,9 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
       ),
       body: Stack(children: [
         HereMap(onMapCreated: _onMapCreated),
+        RouteOutput(),
         routeProvider.isRouteLoading ? Align(alignment: Alignment.center, child: CircularProgressIndicator()) : Container(),
-        routeProvider.isCalculatingOptimalRoute
-            ? Align(
-                alignment: Alignment.center,
-                child: Container(
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.0), color: Colors.white),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          "Generating optimal Path...",
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: SpinKitPouringHourglass(
-                          color: Colors.grey,
-                          size: 50.0,
-                        ),
-                      )
-                    ],
-                  ),
-                  alignment: Alignment.center,
-                  width: 200,
-                  height: 100,
-                ))
-            : Container(),
+        routeProvider.isCalculatingOptimalRoute ? LoadingWidget() : Container(),
         //CarDetailsWidget(),
         RouteButtons(_panelController),
         SlidingUpPanel(
@@ -94,11 +64,15 @@ class _MapSelectionScreenState extends State<MapSelectionScreen> {
             child: Column(
               children: [
                 MaterialButton(
-                  onPressed: (){},
+                  onPressed: () {},
                   shape: CircleBorder(),
-                  color:  Theme.of(context).accentColor,
+                  color: Theme.of(context).accentColor,
                   height: 75,
-                  child: Icon(Icons.car_repair,color: Theme.of(context).canvasColor,size: 30,),
+                  child: Icon(
+                    Icons.car_repair,
+                    color: Theme.of(context).canvasColor,
+                    size: 30,
+                  ),
                 ),
                 SizedBox(
                   height: 20,

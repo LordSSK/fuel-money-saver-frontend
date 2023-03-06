@@ -1,6 +1,6 @@
 # Smart Fuel Money Saver
  
- ### Ranked 4th projects in the Honda Hackathon 2020 which saw 1933 participants
+ ### Ranked 4th in the Honda Hackathon 2021 which saw 1933 participants
  This GitHub project includes the front-end portion of an application that utilizes the HERE SDK to obtain a route between a starting point and a destination point. The application then sends an array of stops located between the starting and ending points to a microservice, which responds with an array indicating how much fuel should be filled at each station along the way.
  **PPT - https://docs.google.com/presentation/d/1ITZGMWD5aCPoYGCXkdq11kH2GLRLGWJfUL3g-0c7p_Q/edit?usp=sharing** \
 **DEMO - https://drive.google.com/file/d/1oPJhf3JBVJnyz305ymajk1dx4901m1Oi/view** \
